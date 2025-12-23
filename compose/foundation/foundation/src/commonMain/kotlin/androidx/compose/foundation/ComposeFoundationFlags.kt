@@ -133,4 +133,11 @@ object ComposeFoundationFlags {
      * currently composed items, this includes visible and items composed through beyond bounds.
      */
     @Suppress("MutableBareField") @JvmField var isCacheWindowForPagerEnabled = false
+
+    /**
+     * With this flag on, LazyList on UIKit platforms (iOS/tvOS/watchOS) will enable prefetching
+     * using CADisplayLink-based scheduler. This prefetches items during frame idle time to
+     * improve scroll performance. If disabled, no prefetching will occur on UIKit platforms.
+     */
+    @Suppress("MutableBareField") @JvmField var isUikitLazyListPrefetchEnabled = true
 }
