@@ -269,6 +269,18 @@ internal class MetalRedrawer(
     fun dispose() {
         check(caDisplayLink != null) { "MetalRedrawer.dispose() was called more than once" }
 
+        // Stop DisplayLink first to prevent new rendering tasks
+        caDisplayLink?.invalidate()
+        caDisplayLink = null
+
+        // Wait for any pending async rendering tasks to complete by joining the render queue.
+        // dispatch_sync ensures all previously dispatched tasks finish before we release resources.
+        if (useSeparateRenderThreadWhenPossible) {
+            trace("MetalRedrawer:dispose:waitForAsyncRenderingTasks") {
+                dispatch_sync(renderingDispatchQueue) {}
+            }
+        }
+
         retrieveInteropTransaction = {
             object : UIKitInteropTransaction {
                 override val isInteropActive: Boolean = false
@@ -279,9 +291,6 @@ internal class MetalRedrawer(
         render = { _, _ -> }
 
         releaseCachedCommandQueue(queue)
-
-        caDisplayLink?.invalidate()
-        caDisplayLink = null
 
         pictureRecorder.close()
         context.close()
