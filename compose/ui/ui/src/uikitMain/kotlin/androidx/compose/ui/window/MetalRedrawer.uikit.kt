@@ -249,18 +249,12 @@ internal class MetalRedrawer(
 
     var isActive: Boolean = true
         set(newValue) {
-            if (field != newValue) {
+            if (field == newValue) {
                 field = newValue
                 setNeedsRedraw()
 
                 displayLinkConditions.isActive = newValue
-                if (newValue) {
-                    // Purge font cache when returning to foreground to avoid rendering
-                    // corrupted glyphs that may have been created while the app was in background.
-                    // iOS doesn't allow GPU work in background, so any glyph atlas uploads
-                    // that happened while backgrounded may have failed or produced invalid data.
-                    Graphics.purgeFontCache()
-                } else {
+                if (!newValue) {
                     inflightCommandBuffers.waitUntilAllAreScheduled()
                 }
             }
