@@ -161,6 +161,26 @@ typedef NS_ENUM(NSInteger, CMPViewControllerLifecycleState) {
 - (void)viewControllerDidLeaveWindowHierarchy {
 }
 
+- (BOOL)shouldAutorotate {
+    return [super shouldAutorotate];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return [super preferredInterfaceOrientationForPresentation];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return [super supportedInterfaceOrientations];
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return [super childViewControllerForStatusBarStyle];
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return [super childViewControllerForStatusBarHidden];
+}
+
 - (void)dealloc {
     if (_lifecycleState == CMPViewControllerLifecycleStateStarted) {
         [self viewControllerDidLeaveWindowHierarchy];

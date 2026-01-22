@@ -45,6 +45,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewSafeAreaInsetsDidChange;
 
+// Overrides of the UIViewController (UIViewControllerRotation) extension
+- (BOOL)shouldAutorotate;
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation;
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations;
+
+// Overrides of the UIViewController (UIContainerViewControllerProtectedMethods) extension
+- (nullable UIViewController *)childViewControllerForStatusBarStyle;
+- (nullable UIViewController *)childViewControllerForStatusBarHidden;
+
 @end
 
 NS_ASSUME_NONNULL_END
